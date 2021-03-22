@@ -1,5 +1,5 @@
 'use strict';
-const conn = require('../../config/db.config')
+const conn = require('../../config/dbconfig')
 
 //creating Trainer object
 const Trainer = function(Trainer){
@@ -15,7 +15,7 @@ const Trainer = function(Trainer){
 }
 
 Trainer.create = (data, result)=>{
-    conn.query(`insert into Trainer set?`,data, (err, response)=> err ? result(err, null) : result(null, response.insertId))
+    conn.query(`insert into Trainer set?`, data, (err, response)=> err ? result(err, null) : result(null, response.insertId))
 }
 
 Trainer.findById = (id, result)=>{
