@@ -1,5 +1,5 @@
 'use strict';
-const conn = require('../../config/dbconfig')
+const conn = require('../../../config/dbconfig')
 
 //creating Trainer object
 const Trainer = function(Trainer){
@@ -29,6 +29,8 @@ Trainer.showAll = (filter, result)=>{
         if(filter.name !== undefined) strFilter.length > 0 ? strFilter += `AND name like '%${filter.name}%'` :  strFilter += `name like '%${filter.name}%'`
         if(filter.email !== undefined) strFilter.length > 0 ? strFilter += `AND email like '%${filter.email}%'` :  strFilter += `email like '%${filter.email}%'`
         if(filter.phone !== undefined) strFilter.length > 0 ? strFilter += `AND phone like '%${filter.phone}%'` :  strFilter += `phone like '%${filter.phone}%'`
+        if(filter.address !== undefined) strFilter.length > 0 ? strFilter += `AND address like '%${filter.address}%'` :  strFilter += `address like '%${filter.address}%'`
+        if(filter.status !== undefined) strFilter.length > 0 ? strFilter += `AND status like '%${filter.status}%'` :  strFilter += `status like '%${filter.status}%'`
     }
     let sqlCommand = strFilter.length === 0 ? `select * from Trainer` : `select * from Trainer WHERE ${strFilter}`
     conn.query(sqlCommand, (err, res)=> err ? result(err, null) : result(null, res))
