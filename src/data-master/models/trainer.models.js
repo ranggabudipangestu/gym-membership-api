@@ -3,7 +3,6 @@ const conn = require('../../../config/dbconfig')
 
 //creating Trainer object
 const Trainer = function(Trainer){
-    this.code = Trainer.code
     this.name = Trainer.name
     this.email = Trainer.email
     this.phone = Trainer.phone
@@ -14,36 +13,29 @@ const Trainer = function(Trainer){
     this.updated_date = new Date();
 }
 
-Trainer.create = (data, result)=>{
-    conn.query(`insert into Trainer set?`, data, (err, response)=> err ? result(err, null) : result(null, response.insertId))
+Trainer.create = (trainer, result)=>{
+    conn.query(`insert into Trainer set?`, trainer, (error, response)=> error ? result(error, null) : result(null, response.insertId))
 }
 
 Trainer.findById = (id, result)=>{
-    conn.query(`select * from Trainer where id=${id}`, (err, res)=> err ? result(err, null) : result(null, res))
+    conn.query(`select * from Trainer where id=${id}`, (error, response)=> error ? result(error, null) : result(null, response))
 }
 
 Trainer.showAll = (filter, result)=>{
-    let strFilter = "";
-    if(filter !== null){
-        if(filter.code !== undefined ) strFilter.length > 0 ? strFilter += `AND code like '%${filter.code}%'` :  strFilter += `code like '%${filter.code}%'`
-        if(filter.name !== undefined) strFilter.length > 0 ? strFilter += `AND name like '%${filter.name}%'` :  strFilter += `name like '%${filter.name}%'`
-        if(filter.email !== undefined) strFilter.length > 0 ? strFilter += `AND email like '%${filter.email}%'` :  strFilter += `email like '%${filter.email}%'`
-        if(filter.phone !== undefined) strFilter.length > 0 ? strFilter += `AND phone like '%${filter.phone}%'` :  strFilter += `phone like '%${filter.phone}%'`
-        if(filter.address !== undefined) strFilter.length > 0 ? strFilter += `AND address like '%${filter.address}%'` :  strFilter += `address like '%${filter.address}%'`
-        if(filter.status !== undefined) strFilter.length > 0 ? strFilter += `AND status like '%${filter.status}%'` :  strFilter += `status like '%${filter.status}%'`
-    }
-    let sqlCommand = strFilter.length === 0 ? `select * from Trainer` : `select * from Trainer WHERE ${strFilter}`
-    conn.query(sqlCommand, (err, res)=> err ? result(err, null) : result(null, res))
+    let sqlCommand = filter.length === 0 ? `select * from Trainer` : `select * from Trainer WHERE ${filter}`
+    conn.query(sqlCommand, (error, response)=> error ? result(error, null) : result(null, response))
 }
 
-Trainer.update = function(id, data, result){
-    conn.query("UPDATE Trainer SET code=?,name=?,email=?,phone=?,salary=?, updated_date=? WHERE id = ?", [data.code,data.name,data.email,data.phone,data.salary, data.updated_date, id], 
-    (err, res)=> err ? result(err, null) : result(null, res))  
+Trainer.update = function(id, trainer, result){
+    conn.query(
+    "UPDATE Trainer SET name=?, email=?, phone=?, salary=?, status=?, updated_date=? WHERE id = ?", 
+    [trainer.name, trainer.email, trainer.phone, trainer.salary, trainer.status, trainer.updated_date, id], 
+    (error, response)=> error ? result(error, null) : result(null, response))  
 };
 
 Trainer.delete = (id, result)=>{
-    conn.query(`delete from Trainer where id=?`,id, (err, res)=>{
-        err ? result(err, null) : result(null, res.insertId)
+    conn.query(`delete from Trainer where id=?`,id, (error, response)=>{
+        error ? result(error, null) : result(null, response.insertId)
     })
 }
 
