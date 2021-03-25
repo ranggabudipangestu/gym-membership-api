@@ -40,8 +40,7 @@ exports.showAll = (request, response)=>{
 }
 
 exports.create = (request, response)=>{
-    let receivedBody = request.body;
-    receivedBody = validation(response, receivedBody)
+    let receivedBody = validation(response, request.body);
     //send member to models
     const newMember = new Member(receivedBody)
     Member.create(newMember, (error, member)=>{
@@ -57,8 +56,7 @@ exports.findById = function(request, response) {
 };
 
 exports.update = (request, response)=>{
-    let receivedBody = request.body;
-    receivedBody = validation(response, receivedBody)
+    let receivedBody = validation(response, request.body);
     //send member to models
     const updatedMember = new Member(receivedBody)
     Member.update(request.params.id, updatedMember, (error, member)=>{
