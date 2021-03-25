@@ -30,7 +30,7 @@ const validation=(response, data)=>{
 exports.showAll = (request, response)=>{
     let filter = request.query.filter === undefined ? null : request.query.filter;
     const sort = request.query.sort !== undefined ? request.query.sort : ""
-    const pageNumber = request.query.sort !== undefined ? request.query.pageNumber : 0
+    const pageNumber = request.query.pageNumber !== undefined ? request.query.pageNumber : 0
     const rowsPerPage = request.query.rowsPerPage !== undefined ? request.query.rowsPerPage : 0
     
     Member.showData(filter, sort, pageNumber, rowsPerPage, (error, member)=> 
