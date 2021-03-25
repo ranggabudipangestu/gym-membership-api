@@ -17,7 +17,7 @@ exports.showAll = (request, response)=>{
     }
     Trainer.showAll(strFilter, (error, trainer)=> 
     {  
-        trainer.length > 0 ? successMessage(response, trainer) : errMessage(response, "Trainer data not found")   
+        trainer !== null ? successMessage(response, trainer) : errMessage(response, "Trainer data not found")   
     })
 }
 
