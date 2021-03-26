@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50508
 File Encoding         : 65001
 
-Date: 2021-03-23 15:03:48
+Date: 2021-03-23 16:42:33
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -89,16 +89,19 @@ INSERT INTO membership_type VALUES ('3', 'ZUMBA', '150000', '30', '1', '2021-03-
 -- ----------------------------
 DROP TABLE IF EXISTS `tax`;
 CREATE TABLE `tax` (
-  `id` int(11) DEFAULT NULL,
+  `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) DEFAULT NULL,
   `percentage` double DEFAULT NULL,
   `created_date` datetime DEFAULT NULL,
-  `updated_date` datetime DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+  `updated_date` datetime DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
 
 -- ----------------------------
 -- Records of tax
 -- ----------------------------
+INSERT INTO tax VALUES ('1', 'PPN', '10', '2021-03-23 16:34:38', '2021-03-23 16:34:38', '1');
 
 -- ----------------------------
 -- Table structure for `trainer`
