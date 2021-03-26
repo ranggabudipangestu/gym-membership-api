@@ -1,7 +1,7 @@
 'use strict';
 const Tax = require('../models/tax.models')
 const errMessage=(response, message)=> response.status(400).send({success:false, message})
-const successMessage=(response, tax)=> response.status(200).send({success:true, tax})
+const successMessage=(response, data)=> response.status(200).send({success:true, data})
 exports.showAll = (request, response)=>{
     let filter = request.body;
     let strFilter = "";
@@ -45,8 +45,7 @@ exports.update = (request, response)=>{
     if(receivedBody.constructor === Object && Object.keys(receivedBody).length === 0) return errMessage(response, "Please fill all required field")
     //VALIDATION OF UNDEFINED FIELD
     if(receivedBody.name === undefined) return errMessage(response, "Name must be String defined")
-    if(receivedBody.price === undefined) return errMessage(response, "Price must be Number defined")
-    if(receivedBody.duration === undefined) return errMessage(response, "Duration must be Number defined")
+    if(receivedBody.percentage === undefined) return errMessage(response, "Percentage must be Number defined")
     if(receivedBody.status === undefined) return errMessage(response, "Status must be Integer defined")
     //VALIDATION REQUIRED FIELD
     if(receivedBody.name.length === 0) return errMessage(response, "Name can't be empty")
@@ -59,7 +58,8 @@ exports.update = (request, response)=>{
 exports.delete = function(request, response) {
     const id = parseInt(request.params.id)
     Tax.delete(id, function(error) {
-        error ? errMessage(response, error.sqlMessage) : successMessage(response,{message:"Tax successfully deleted!"})    });
+        error ? errMessage(response, error.sqlMessage) : successMessage(response,{message:"Tax successfully deleted!"})    
+    });
 };
 
 
