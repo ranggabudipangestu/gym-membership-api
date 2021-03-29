@@ -1,6 +1,6 @@
 'use strict';
-const conn = require('../../../config/dbconfig')
-const sql = require('../../libs/mysql.query')
+const mysql = require('../../../config/db.config')
+const sql = require('../../../utils/mysql.query')
 
 //creating Member object
 const Member = function(member){
@@ -26,7 +26,7 @@ const Member = function(member){
 }
 
 Member.create = (member, result)=>{
-    conn.query(`insert into Member set?`, member, (error, response)=> error ? result(error, null) : result(null, response.insertId))
+    mysql.query(`insert into Member set?`, member, (error, response)=> error ? result(error, null) : result(null, response.insertId))
 }
 
 Member.showData = (filter=null, sort="", pageNumber="", rowsPerPage="", result)=>{
@@ -50,7 +50,7 @@ Member.showData = (filter=null, sort="", pageNumber="", rowsPerPage="", result)=
     FROM member m 
     LEFT JOIN membership_type mt ON m.membership_type = mt.id
     LEFT JOIN location l ON m.joined_location = l.id` 
-    conn.query(sql.commandSelect(sqlCommand, strFilter, sort, pageNumber, rowsPerPage), 
+    mysql.query(sql.commandSelect(sqlCommand, strFilter, sort, pageNumber, rowsPerPage), 
     (error, response)=> {
         if(error || response.length === 0) return result(error===null ? "Member data Not found":error, null)
         return result(null, response)
@@ -58,7 +58,7 @@ Member.showData = (filter=null, sort="", pageNumber="", rowsPerPage="", result)=
 }
 
 Member.update = function(id, member, result){
-    conn.query(
+    mysql.query(
     `UPDATE Member SET 
     name=?,gender=?,date_of_birth=?,email=?,phone=?,address=?,city=?,province=?, country=?,
     membership_type=?, joined_date=?,expired_date=?,joined_location=?,status=?,trainer_id=?,
@@ -70,7 +70,7 @@ Member.update = function(id, member, result){
 };
 
 Member.delete = (id, result)=>{
-    conn.query(`delete from Member where id=?`,id, (error, response)=>{
+    mysql.query(`delete from Member where id=?`,id, (error, response)=>{
         error ? result(error, null) : result(null, response.insertId)
     })
 }
