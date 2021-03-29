@@ -12,6 +12,7 @@ const Member = function(member){
     this.address = member.address
     this.city = member.city
     this.province = member.province
+    this.country = member.country
     this.membership_type = member.membership_type
     this.joined_date = member.joined_date
     this.expired_date = member.expired_date
@@ -41,7 +42,6 @@ Member.showData = (filter=null, sort="", pageNumber="", rowsPerPage="", result)=
         if(filter.status !== undefined) strFilter.length > 0 ? strFilter += `AND m.status like '%${filter.status}%'` :  strFilter += `status like '%${filter.status}%'`
     }
    
-
     let sqlCommand = `SELECT m.*, 
     IFNULL(mt.name,"") as membership_name, 
     IFNULL(mt.price,0) AS membership_price, 
@@ -59,8 +59,13 @@ Member.showData = (filter=null, sort="", pageNumber="", rowsPerPage="", result)=
 
 Member.update = function(id, member, result){
     conn.query(
-    "UPDATE Member SET name=?, email=?, phone=?, salary=?, status=?, updated_date=? WHERE id = ?", 
-    [member.name, member.email, member.phone, member.salary, member.status, member.updated_date, id], 
+    `UPDATE Member SET 
+    name=?,gender=?,date_of_birth=?,email=?,phone=?,address=?,city=?,province=?, country=?,
+    membership_type=?, joined_date=?,expired_date=?,joined_location=?,status=?,trainer_id=?,
+    updated_by=?, updated_date=? WHERE id = ?`, 
+    [member.name,member.gender,member.date_of_birth,member.email,member.phone, member.address,member.city,member.province, member.country,
+    member.membership_type, member.joined_date, member.expired_date, member.joined_location,member.status,member.trainer_id,
+    member.updated_by,member.updated_date], 
     (error, response)=> error ? result(error, null) : result(null, response))  
 };
 
