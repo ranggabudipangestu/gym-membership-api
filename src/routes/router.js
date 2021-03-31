@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
+
 const locationController = require("../data-master/controllers/location.controllers")
 router.get('/location/', locationController.showAll); // show all of location data
 router.post('/location/', locationController.create); // insert location data
@@ -36,13 +37,14 @@ router.get('/trainer/:id', trainerController.findById); //show trainer data by i
 router.put('/trainer/:id', trainerController.update); //save update trainer data
 router.delete('/trainer/:id', trainerController.delete); //delete trainer data
 
-
 const memberPaymentController = require("../transaction/controllers/member-payment.controllers")
 router.get('/member-payment/', memberPaymentController.showAll); // show all of trainer data
 router.post('/member-payment/', memberPaymentController.create); // insert trainer data
-router.get('/trainer/:id', memberPaymentController.findById); //show trainer data by id
-router.put('/trainer/:id', memberPaymentController.update); //save update trainer data
+router.get('/member-payment/:id', memberPaymentController.findById); //show trainer data by id
+router.put('/member-payment/:id', memberPaymentController.update); //save update trainer data
 router.delete('/member-payment/:id', memberPaymentController.delete); //delete trainer data
+router.use("/", router.get('/', (req, res)=> res.send("API")))
+
 
 
 module.exports = router

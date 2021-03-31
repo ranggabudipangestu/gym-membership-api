@@ -82,12 +82,7 @@ MemberPayment.showData = async (filter=null, sort="", pageNumber="", rowsPerPage
     try{
         if(filter !== null){
             filter = JSON.parse(filter);
-            if(filter.id !== undefined) strFilter.length > 0 ? strFilter += `AND m.id = ${filter.id}` :  strFilter += ` m.id = ${filter.id}`
-            if(filter.name !== undefined) strFilter.length > 0 ? strFilter += `AND m.name like '%${filter.name}%'` :  strFilter += `m.name like '%${filter.name}%'`
-            if(filter.email !== undefined) strFilter.length > 0 ? strFilter += `AND m.email like '%${filter.email}%'` :  strFilter += `email like '%${filter.email}%'`
-            if(filter.phone !== undefined) strFilter.length > 0 ? strFilter += `AND m.phone like '%${filter.phone}%'` :  strFilter += `phone like '%${filter.phone}%'`
-            if(filter.address !== undefined) strFilter.length > 0 ? strFilter += `AND m.address like '%${filter.address}%'` :  strFilter += `address like '%${filter.address}%'`
-            if(filter.status !== undefined) strFilter.length > 0 ? strFilter += `AND m.status like '%${filter.status}%'` :  strFilter += `status like '%${filter.status}%'`
+            if(filter.id !== undefined) strFilter.length > 0 ? strFilter += `AND mp.payment_id = ${filter.id}` :  strFilter += ` mp.payment_id = ${filter.id}`
         }
          
         let sqlCommand = `SELECT mp.*, m.name as member_name, m.membership_type as membership_type, 
@@ -114,6 +109,7 @@ MemberPayment.showData = async (filter=null, sort="", pageNumber="", rowsPerPage
 }
 
 MemberPayment.update = function(id, member, result){
+    //member payment update on progress....
     mysql.query(
     `UPDATE MemberPayment SET 
     name=?,gender=?,date_of_birth=?,email=?,phone=?,address=?,city=?,province=?, country=?,
