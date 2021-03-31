@@ -125,10 +125,31 @@ MemberPayment.update = function(id, member, result){
     (error, response)=> error ? result(error, null) : result(null, response))  
 };
 
-MemberPayment.delete = (id, result)=>{
-    mysql.query(`delete from MemberPayment where id=?`,id, (error, response)=>{
-        error ? result(error, null) : result(null, response.insertId)
-    })
+MemberPayment.delete = async (id, result)=>{
+    const connection = await mysql.connection()
+    try{
+        //checking member payment by id
+        const paymentData = await connection.query(`select pay_duration, member_id from Member_Payment where payment_id=? LIMIT 1`, id);   
+        if(paymentData.length > 0){
+            await connection.query("START TRANSACTION");
+            //deleting member payment
+            let sql = `delete from Member_Payment where payment_id=${id}`
+            await connection.query(sql);
+            //updating member's expired date
+            sql = `update Member set expired_date = date_ADD(expired_date, INTERVAL -${paymentData[0].pay_duration} DAY) where id=${paymentData[0].member_id}`
+            await connection.query(sql);
+            await connection.query("COMMIT");
+            //RESULT
+            result(null, "Member payment successfully deleted")
+        }else{ 
+            return result("Member Payment doesn't exist")
+        }
+    }catch(err){
+        await connection.query("ROLLBACK")
+        result(`Failed to deleting Payment: ${err.message}`, null)
+    }finally{
+        await connection.release()
+    }
 }
 
 module.exports = MemberPayment

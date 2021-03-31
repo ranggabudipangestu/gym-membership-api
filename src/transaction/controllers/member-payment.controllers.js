@@ -70,8 +70,8 @@ exports.update = (request, response)=>{
 
 exports.delete = function(request, response) {
     const id = parseInt(request.params.id)
-    MemberPayment.delete(id, function(error) {
-        error ? errMessage(response, error.sqlMessage) :successMessage(response, {message:"MemberPayment successfully deleted!"})
+    MemberPayment.delete(id, function(error, msgSuccess) {
+        error ? errMessage(response, error) :successMessage(response, {message:msgSuccess})
     });
 };
 

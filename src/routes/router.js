@@ -42,7 +42,7 @@ router.get('/member-payment/', memberPaymentController.showAll); // show all of 
 router.post('/member-payment/', memberPaymentController.create); // insert trainer data
 router.get('/trainer/:id', memberPaymentController.findById); //show trainer data by id
 router.put('/trainer/:id', memberPaymentController.update); //save update trainer data
-router.delete('/trainer/:id', memberPaymentController.delete); //delete trainer data
+router.delete('/member-payment/:id', memberPaymentController.delete); //delete trainer data
 
 
 module.exports = router
