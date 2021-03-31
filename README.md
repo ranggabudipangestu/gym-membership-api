@@ -10,7 +10,7 @@ Master : <br>
  - Tax<br>
  - Location<br>
  - Member<br>
-Transaction :  <br>
+Transaction :<br>
  - Member Payment<br>
  - Attendance<br>
  - Expense Manager<br>
